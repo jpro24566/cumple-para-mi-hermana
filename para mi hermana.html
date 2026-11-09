@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>¡Feliz cumpleaños!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Pacifico&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --lila:#c9b8ff; --lila-osc:#8f74e8; --rosa:#ffb8d9; --rosa-osc:#ff7fb5;
+    --azul:#b8dcff; --crema:#fff9f2; --oro:#f5c04a; --oro-claro:#ffe39a;
+    --texto:#4a3a6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito',system-ui,sans-serif;
+    color:var(--texto);
+    background:linear-gradient(160deg,#f3ecff 0%,#ffeaf4 45%,#e6f3ff 100%);
+    background-attachment:fixed;
+    overflow-x:hidden;
+    min-height:100vh;
+  }
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+  /* Fondo de destellos */
+  .sparkles{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .sparkle{
+    position:absolute;width:14px;height:14px;
+    background:radial-gradient(circle,#fff 0%,var(--oro-claro) 40%,transparent 70%);
+    clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);
+    animation:twinkle 3s ease-in-out infinite;opacity:.0;
+  }
+  @keyframes twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1.2) rotate(45deg)}}
+
+  /* Globos */
+  .balloons{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+  .balloon{
+    position:absolute;bottom:-160px;width:58px;height:72px;border-radius:50% 50% 48% 48%;
+    animation:subir linear infinite;opacity:.85;
+    box-shadow:inset -8px -10px 0 rgba(0,0,0,.06), inset 8px 8px 0 rgba(255,255,255,.35);
+  }
+  .balloon::after{
+    content:"";position:absolute;left:50%;top:100%;width:2px;height:70px;
+    background:rgba(120,100,160,.35);transform:translateX(-50%);
+  }
+  @keyframes subir{
+    0%{transform:translateY(0) translateX(0) rotate(-4deg)}
+    50%{transform:translateY(-60vh) translateX(25px) rotate(4deg)}
+    100%{transform:translateY(-125vh) translateX(-15px) rotate(-3deg)}
+  }
+
+  main{position:relative;z-index:2}
+  section{padding:70px 20px;max-width:980px;margin:0 auto;text-align:center}
+
+  /* Héroe */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:40px}
+  .hero .pre{
+    font-family:'Baloo 2',sans-serif;font-weight:700;letter-spacing:.25em;text-transform:uppercase;
+    color:var(--lila-osc);font-size:.95rem;margin-bottom:6px;
+    animation:caer .9s ease both;
+  }
+  .hero h1{
+    font-family:'Pacifico',cursive;font-weight:400;
+    font-size:clamp(2.6rem,9vw,5.6rem);line-height:1.1;
+    background:linear-gradient(90deg,var(--rosa-osc),var(--lila-osc),#6fa8ff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:caer 1s .15s ease both;
+    filter:drop-shadow(0 4px 0 rgba(255,255,255,.8));
+  }
+  .age-wrap{position:relative;margin:26px 0 10px;animation:pop 1s .4s cubic-bezier(.2,1.6,.4,1) both}
+  .age{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(9rem,32vw,17rem);line-height:.9;
+    background:linear-gradient(135deg,#fff3c4 0%,var(--oro) 35%,#e8a317 55%,var(--oro-claro) 80%,#fff 100%);
+    background-size:200% 200%;animation:brillo 4s ease-in-out infinite;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 8px 0 rgba(255,255,255,.9)) drop-shadow(0 14px 22px rgba(245,192,74,.45));
+  }
+  @keyframes brillo{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .age-wrap .orbit{position:absolute;font-size:2rem;animation:flotar 3s ease-in-out infinite}
+  .o1{top:6%;left:-4%}.o2{top:10%;right:-2%;animation-delay:.6s}.o3{bottom:12%;left:2%;animation-delay:1.2s}.o4{bottom:8%;right:0;animation-delay:1.8s}
+  @keyframes flotar{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-14px) rotate(8deg)}}
+  .hero .sub{
+    font-size:clamp(1.15rem,3.4vw,1.6rem);font-weight:700;max-width:620px;
+    animation:caer 1s .8s ease both;
+  }
+  .hero .sub b{color:var(--rosa-osc)}
+  .scroll-hint{margin-top:40px;font-size:.95rem;color:var(--lila-osc);animation:rebote 1.6s infinite}
+  @keyframes rebote{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+  @keyframes caer{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:none}}
+  @keyframes pop{from{opacity:0;transform:scale(.2) rotate(-12deg)}to{opacity:1;transform:none}}
+
+  /* Títulos de sección */
+  h2{
+    font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);
+    color:var(--lila-osc);margin-bottom:10px;
+  }
+  h2 .oro{color:var(--oro)}
+  .lead{opacity:.85;margin-bottom:36px;font-size:1.1rem}
+
+  /* Pastel */
+  .cake-stage{position:relative;width:min(340px,86vw);margin:0 auto 26px;padding-top:70px}
+  .candles{display:flex;justify-content:center;gap:5px;position:absolute;top:0;left:0;right:0;height:92px;align-items:flex-end;padding:0 24px;z-index:3}
+  .candle{position:relative;width:9px;height:40px;border-radius:3px;flex:0 0 auto}
+  .candle:nth-child(odd){background:repeating-linear-gradient(45deg,#fff,#fff 5px,var(--rosa) 5px,var(--rosa) 10px)}
+  .candle:nth-child(even){background:repeating-linear-gradient(45deg,#fff,#fff 5px,var(--azul) 5px,var(--azul) 10px)}
+  .flame{
+    position:absolute;left:50%;bottom:100%;width:12px;height:20px;transform:translateX(-50%);
+    background:radial-gradient(ellipse at 50% 70%,#fff6c9 0%,#ffcf4d 45%,#ff8f3d 100%);
+    border-radius:50% 50% 50% 50% / 65% 65% 35% 35%;
+    animation:llama .35s ease-in-out infinite alternate;
+    box-shadow:0 0 14px 4px rgba(255,200,80,.55);
+    transition:opacity .4s, transform .4s;
+  }
+  @keyframes llama{from{transform:translateX(-50%) scale(1,1) skewX(-3deg)}to{transform:translateX(-50%) scale(.9,1.1) skewX(3deg)}}
+  .candles.off .flame{opacity:0;transform:translateX(-50%) scale(.2)}
+  .candles.off .candle::before{
+    content:"";position:absolute;left:50%;bottom:100%;width:5px;height:5px;border-radius:50%;
+    background:rgba(150,150,170,.6);animation:humo 1.6s ease-out forwards;
+  }
+  @keyframes humo{from{opacity:.8;transform:translate(-50%,0) scale(1)}to{opacity:0;transform:translate(-30%,-40px) scale(4)}}
+  .cake{position:relative;z-index:2;filter:drop-shadow(0 16px 20px rgba(143,116,232,.25))}
+  .tier{height:64px;border-radius:18px 18px 8px 8px;position:relative}
+  .tier.top{width:70%;margin:0 auto;background:var(--rosa);}
+  .tier.mid{width:86%;margin:-4px auto 0;background:var(--lila);height:72px}
+  .tier.bot{width:100%;margin:-4px auto 0;background:var(--azul);height:80px;border-radius:18px}
+  .tier::before{ /* glaseado */
+    content:"";position:absolute;top:0;left:0;right:0;height:22px;background:#fff;border-radius:18px 18px 50% 50%/18px 18px 22px 22px;
+    mask:radial-gradient(circle 9px at 9px 100%,transparent 98%,#000) ;
+  }
+  .tier::after{ /* perlas doradas */
+    content:"";position:absolute;bottom:10px;left:8%;right:8%;height:8px;
+    background:radial-gradient(circle,var(--oro) 3.5px,transparent 4.5px) 0 0/22px 8px repeat-x;
+  }
+  .plate{width:112%;height:16px;margin:-4px 0 0 -6%;border-radius:50%;background:linear-gradient(#fff,#ece4ff);box-shadow:0 8px 14px rgba(143,116,232,.2)}
+
+  .btn{
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:1.15rem;
+    padding:14px 30px;border:none;border-radius:999px;cursor:pointer;color:#fff;
+    background:linear-gradient(135deg,var(--rosa-osc),var(--lila-osc));
+    box-shadow:0 8px 0 #6f55c4,0 14px 24px rgba(143,116,232,.35);
+    transition:transform .15s, box-shadow .15s;
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(6px);box-shadow:0 2px 0 #6f55c4,0 6px 12px rgba(143,116,232,.35)}
+  .btn.gold{background:linear-gradient(135deg,var(--oro),#ff9f4a);box-shadow:0 8px 0 #c98a12,0 14px 24px rgba(245,192,74,.4)}
+  .btn.gold:active{box-shadow:0 2px 0 #c98a12,0 6px 12px rgba(245,192,74,.4)}
+  .wish{min-height:2.2em;margin-top:22px;font-family:'Pacifico',cursive;font-size:1.5rem;color:var(--rosa-osc);opacity:0;transform:translateY(10px);transition:.6s}
+  .wish.show{opacity:1;transform:none}
+
+  /* Carta */
+  .letter{
+    position:relative;background:var(--crema);border-radius:26px;padding:clamp(28px,6vw,56px);
+    text-align:left;max-width:720px;margin:0 auto;
+    box-shadow:0 20px 50px rgba(143,116,232,.2);
+    border:3px solid transparent;
+    background-image:linear-gradient(var(--crema),var(--crema)),linear-gradient(135deg,var(--oro),var(--rosa),var(--lila));
+    background-origin:border-box;background-clip:padding-box,border-box;
+  }
+  .letter::before{content:"💌";position:absolute;top:-26px;left:50%;transform:translateX(-50%);font-size:2.6rem;background:#fff;border-radius:50%;width:64px;height:64px;display:grid;place-items:center;box-shadow:0 6px 16px rgba(0,0,0,.1)}
+  .letter p{font-size:1.18rem;line-height:1.85;margin-bottom:1em}
+  .letter .firma{font-family:'Pacifico',cursive;font-size:1.6rem;color:var(--rosa-osc);text-align:right;margin:10px 0 0}
+  .letter .big{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.7rem;color:var(--lila-osc);margin-bottom:.4em}
+
+  /* Razones */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;text-align:left}
+  .card{
+    background:#fff;border-radius:22px;padding:22px 20px;position:relative;
+    box-shadow:0 10px 26px rgba(143,116,232,.14);
+    transition:transform .25s, box-shadow .25s;
+    opacity:0;transform:translateY(24px);
+  }
+  .card.in{opacity:1;transform:none;transition:opacity .6s, transform .6s}
+  .card.in:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 16px 34px rgba(255,127,181,.25)}
+  .card .num{
+    display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;
+    font-family:'Baloo 2',sans-serif;font-weight:800;color:#fff;margin-bottom:10px;
+    background:linear-gradient(135deg,var(--oro),#ff9f4a);
+  }
+  .card p{line-height:1.5;font-weight:600}
+
+  /* Final */
+  .final{padding-bottom:110px}
+  .heart{font-size:4.4rem;display:inline-block;animation:latido 1.2s ease-in-out infinite;filter:drop-shadow(0 8px 12px rgba(255,100,150,.4))}
+  @keyframes latido{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+  .final h2{margin-top:10px}
+  .final .te-quiero{font-family:'Pacifico',cursive;font-size:clamp(1.8rem,6vw,3rem);color:var(--rosa-osc);margin:10px 0 28px}
+  footer{text-align:center;padding:0 20px 40px;opacity:.7;font-size:.95rem;position:relative;z-index:2}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s, transform .9s}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  }
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="sparkles" id="sparkles"></div>
+<div class="balloons" id="balloons"></div>
+
+<main>
+  <!-- HÉROE -->
+  <section class="hero">
+    <div class="pre">Hoy es tu día</div>
+    <h1>¡Feliz cumpleaños sofia<span id="nombre"></span>!</h1>
+    <div class="age-wrap">
+      <span class="orbit o1">✨</span><span class="orbit o2">🎈</span>
+      <span class="orbit o3">🎀</span><span class="orbit o4">⭐</span>
+      <div class="age">11</div>
+    </div>
+    <p class="sub">Hoy cumples 11 años y yo soy la hermano más afortunado del mundo. <b>Te quiero muchísimo.</b> 💜</p>
+    <div class="scroll-hint">Desliza hacia abajo ↓</div>
+  </section>
+
+  <!-- PASTEL -->
+  <section class="reveal">
+    <h2>Pide un <span class="oro">deseo</span> ✨</h2>
+    <p class="lead">Once velitas, una por cada año de tu vida. Cierra los ojos, piensa en algo bonito y sopla.</p>
+    <div class="cake-stage">
+      <div class="candles" id="candles"></div>
+      <div class="cake">
+        <div class="tier top"></div>
+        <div class="tier mid"></div>
+        <div class="tier bot"></div>
+        <div class="plate"></div>
+      </div>
+    </div>
+    <button class="btn" id="soplar">🎂 Soplar las velas</button>
+    <div class="wish" id="wish">Que todos tus deseos se hagan realidad 🌟</div>
+  </section>
+
+  <!-- CARTA -->
+  <section class="reveal">
+    <div class="letter">
+      <p class="big">Para mi hermanita:</p>
+      <p>Hoy cumples 11 años y no puedo evitar sonreír pensando en todo lo que has crecido. Pareciera que fue ayer cuando eras pequeñita, y ahora mírate: más lista, más graciosa y más increíble cada día.</p>
+      <p>Gracias por ser mi hermana. Contigo todo es más divertido, y mi vida sería mucho más gris sin ti.</p>
+      <p>Quiero que sepas que siempre voy a estar a tu lado aun que a veces pienses que no te quiero y pienses que soy un mal hermano, en el fondo de todo alla por alla bien lejos te quiero mucho hermanita, espero que disfrutes mucho tu cumple y disfruta de tu niñez por que se va volando!</p>
+      <p><strong>¡Feliz cumpleaños! Te quiero muchísimo.</strong> Que este nuevo año venga lleno de aventuras, sorpresas y mucho mucho mas. 🎉</p>
+      <p class="firma">Con todo mi cariño, tu hermano 💖</p>
+    </div>
+  </section>
+
+  <!-- RAZONES -->
+  <section>
+    <h2 class="reveal">11 razones por las que <span class="oro">te quiero</span></h2>
+    <p class="lead reveal">Una por cada año que has llenado mi vida de alegría.</p>
+    <div class="grid" id="razones"></div>
+  </section>
+
+  <!-- FINAL -->
+  <section class="final reveal">
+    <div class="heart">💖</div>
+    <h2>Eres lo mejor que tengo</h2>
+    <div class="te-quiero">¡Te quiero muchísimo sofi!</div>
+    <button class="btn gold" id="sorpresa">🎉 ¡Otra sorpresa!</button>
+  </section>
+</main>
+<footer>Hecho por tu hermanito con mucho amor para mi hermana que la quiero mucho y que merece el mundo entero ✨</footer>
+
+<script>
+/* ====== PERSONALIZA AQUÍ ====== */
+// Puedes poner el nombre aquí o abrir la página con ?nombre=Sofía al final de la dirección
+const NOMBRE = "";
+const razones = [
+  "Porque tu risa le cambia el día a cualquiera.",
+  "Porque siempre encuentras la forma de hacerme reír.",
+  "Porque eres valiente, aunque a veces no lo creas.",
+  "Porque eres muy fastidiosa pero caes bien.",
+  "Porque tu imaginación no tiene límites.",
+  "Porque tienes un corazón enorme y generoso.",
+  "Porque me enseñas a ver el mundo con más alegría.",
+  "Porque eres única, y eso te hace especial.",
+  "Porque contigo hasta los días normales son divertidos.",
+  "Porque me haces sentir orgulloso de ser tu hermano.",
+  "Porque simplemente eres tú, y así eres perfecta."
+];
+/* ================================ */
+
+const $ = s => document.querySelector(s);
+const params = new URLSearchParams(location.search);
+const nombre = (params.get('nombre') || NOMBRE).trim();
+if (nombre) $('#nombre').textContent = ', ' + nombre;
+
+/* Destellos de fondo */
+const sp = $('#sparkles');
+for (let i = 0; i < 28; i++) {
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  const sz = 8 + Math.random() * 16;
+  s.style.width = s.style.height = sz + 'px';
+  s.style.animationDelay = (Math.random() * 3) + 's';
+  s.style.animationDuration = (2 + Math.random() * 3) + 's';
+  sp.appendChild(s);
+}
+
+/* Globos */
+const colores = ['#ffb8d9','#c9b8ff','#b8dcff','#ffe39a','#ffc6e5','#d9c9ff'];
+const bl = $('#balloons');
+for (let i = 0; i < 14; i++) {
+  const b = document.createElement('div');
+  b.className = 'balloon';
+  b.style.left = (Math.random() * 94) + '%';
+  b.style.background = colores[i % colores.length];
+  const sc = .7 + Math.random() * .7;
+  b.style.width = 58 * sc + 'px'; b.style.height = 72 * sc + 'px';
+  b.style.animationDuration = (14 + Math.random() * 14) + 's';
+  b.style.animationDelay = (-Math.random() * 20) + 's';
+  bl.appendChild(b);
+}
+
+/* Velas */
+const candles = $('#candles');
+for (let i = 0; i < 11; i++) {
+  const c = document.createElement('div');
+  c.className = 'candle';
+  c.style.height = (36 + (i % 3) * 5) + 'px';
+  c.innerHTML = '<div class="flame" style="animation-delay:' + (i * 0.07) + 's"></div>';
+  candles.appendChild(c);
+}
+
+/* Razones */
+const grid = $('#razones');
+razones.forEach((t, i) => {
+  const d = document.createElement('div');
+  d.className = 'card';
+  d.style.transitionDelay = (i % 4) * 90 + 'ms';
+  d.innerHTML = '<div class="num">' + (i + 1) + '</div><p>' + t + '</p>';
+  grid.appendChild(d);
+});
+
+/* Aparición al hacer scroll */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .15 });
+document.querySelectorAll('.reveal, .card').forEach(el => io.observe(el));
+
+/* Confeti */
+const cv = $('#confetti'), ctx = cv.getContext('2d');
+let W, H, parts = [], running = false;
+function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
+addEventListener('resize', resize); resize();
+const paleta = ['#ff7fb5','#8f74e8','#6fa8ff','#f5c04a','#ffe39a','#ffb8d9','#ffffff'];
+function burst(x, y, n = 120) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, v = 4 + Math.random() * 9;
+    parts.push({
+      x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 6,
+      g: .22 + Math.random() * .1, w: 6 + Math.random() * 8, h: 4 + Math.random() * 6,
+      r: Math.random() * 6, vr: (Math.random() - .5) * .4,
+      c: paleta[(Math.random() * paleta.length) | 0], life: 160 + Math.random() * 80,
+      star: Math.random() < .15
+    });
+  }
+  if (!running) { running = true; requestAnimationFrame(tick); }
+}
+function tick() {
+  ctx.clearRect(0, 0, W, H);
+  parts = parts.filter(p => p.life > 0 && p.y < H + 30);
+  for (const p of parts) {
+    p.vy += p.g; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life--;
+    ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+    ctx.globalAlpha = Math.min(1, p.life / 40); ctx.fillStyle = p.c;
+    if (p.star) { ctx.font = p.w * 2 + 'px serif'; ctx.fillText('★', -p.w, p.w); }
+    else ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+    ctx.restore();
+  }
+  if (parts.length) requestAnimationFrame(tick); else { running = false; ctx.clearRect(0, 0, W, H); }
+}
+function lluvia() {
+  burst(W * .2, H * .6, 90); burst(W * .5, H * .45, 130); burst(W * .8, H * .6, 90);
+}
+
+/* Interacciones */
+$('#soplar').addEventListener('click', () => {
+  if (candles.classList.contains('off')) {
+    candles.classList.remove('off'); $('#wish').classList.remove('show');
+    $('#soplar').textContent = '🎂 Soplar las velas'; return;
+  }
+  candles.classList.add('off');
+  $('#wish').classList.add('show');
+  $('#soplar').textContent = '🕯️ Encender otra vez';
+  const r = candles.getBoundingClientRect();
+  setTimeout(() => burst(r.left + r.width / 2, r.top + 30, 160), 350);
+});
+$('#sorpresa').addEventListener('click', lluvia);
+
+/* Confeti de bienvenida */
+addEventListener('load', () => setTimeout(lluvia, 900));
+</script>
+</body>
+</html>
